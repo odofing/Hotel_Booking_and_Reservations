@@ -37,15 +37,13 @@ export const login = async (req, res, next) => {
       process.env.JWT
     )
 
-    // hide password and isAdmin then return otherDetails to the frontend
     const { password, isAdmin, ...otherDetails } = user._doc
     res
       .cookie('access_token', token, {
         httpOnly: true,
       })
       .status(200)
-      .json({ ...otherDetails, isAdmin })
-    res.status(200).json(otherDetails)
+      .json({ details: { ...otherDetails }, isAdmin })
   } catch (err) {
     next(err)
   }
